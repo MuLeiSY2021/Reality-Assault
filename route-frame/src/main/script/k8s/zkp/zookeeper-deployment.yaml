@@ -1,0 +1,104 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zookeeper
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zookeeper-config
+  namespace: zookeeper
+data:
+  zoo.cfg: |
+    tickTime=2000
+    initLimit=5
+    syncLimit=2
+    dataDir=/data
+    clientPort=2181
+    autopurge.snapRetainCount=3
+    autopurge.purgeInterval=1
+    server.1=zookeeper-0.zookeeper.zookeeper.svc.cluster.local:2888:3888
+    server.2=zookeeper-1.zookeeper.zookeeper.svc.cluster.local:2888:3888
+    server.3=zookeeper-2.zookeeper.zookeeper.svc.cluster.local:2888:3888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-headless
+  namespace: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  ports:
+    - port: 2181
+      name: client
+    - port: 2888
+      name: quorum
+    - port: 3888
+      name: leader-election
+  clusterIP: None
+  selector:
+    app: zookeeper
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+  namespace: zookeeper
+  labels:
+    app: zookeeper
+spec:
+  ports:
+    - port: 2181
+      name: client
+  selector:
+    app: zookeeper
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper
+  namespace: zookeeper
+spec:
+  serviceName: "zookeeper-headless"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: zookeeper:3.6.3
+          ports:
+            - containerPort: 2181
+              name: client
+            - containerPort: 2888
+              name: quorum
+            - containerPort: 3888
+              name: leader-election
+          volumeMounts:
+            - name: datadir
+              mountPath: /data
+            - name: configdir
+              mountPath: /conf
+          command:
+            - sh
+            - -c
+            - "cp /conf/zoo.cfg /apache-zookeeper-3.6.3-bin/conf/zoo.cfg && exec bin/zkServer.sh start-foreground"
+      volumes:
+        - name: configdir
+          configMap:
+            name: zookeeper-config
+  volumeClaimTemplates:
+    - metadata:
+        name: datadir
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
