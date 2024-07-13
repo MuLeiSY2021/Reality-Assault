@@ -1,11 +1,14 @@
-package  indi.muleisy.ra.service.user.service;
+package indi.muleisy.ra.service.user.service;
 
 import indi.muleisy.ra.service.user.model.User;
-import indi.muleisy.ra.service.user.repository.CacheRepository;
-import indi.muleisy.ra.service.user.utils.JwtUtil;
+import indi.muleisy.ra.service.user.model.UserCredentials;
+import indi.muleisy.ra.service.user.repository.MongoUserRepository;
+import indi.muleisy.ra.service.user.repository.UserCredentialsRepository;
+import indi.muleisy.ra.utils.Config;
+import indi.muleisy.ra.utils.ProviderConstant;
+import indi.muleisy.ra.utils.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.security.KeyPair;
@@ -18,42 +21,30 @@ import java.util.UUID;
 public class RegistrationService {
 
     @Autowired
-    private VerificationService verificationService;
+    private MongoUserRepository mongoUserRepository;
 
     @Autowired
-    private CacheRepository cacheRepository;
+    private QQUserInfoService qqUserInfoService;
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private WeChatUserInfoService weChatUserInfoService;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private GitHubUserInfoService gitHubUserInfoService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private UserCredentialsRepository userCredentialsRepository;
 
-    public String registerByPhone(String phone, String code, String password) {
-        if (!verificationService.verifyPhoneCode(phone, code)) {
-            throw new IllegalArgumentException("Invalid verification code.");
-        }
-
-        String userId = UUID.randomUUID().toString();
+    public Object registerByPhone(String phone, String password) {
         User user = new User();
-        user.setId(userId);
         user.setPhone(phone);
 
         saveUser(user, password);
         return generateJwt(user);
     }
 
-    public String registerByEmail(String email, String code, String password) {
-        if (!verificationService.verifyEmailCode(email, code)) {
-            throw new IllegalArgumentException("Invalid verification code.");
-        }
-
-        String userId = UUID.randomUUID().toString();
+    public Object registerByEmail(String email, String password) {
         User user = new User();
-        user.setId(userId);
         user.setEmail(email);
 
         saveUser(user, password);
@@ -61,48 +52,56 @@ public class RegistrationService {
     }
 
     public String registerByOAuth2(String provider, String token, String password) {
-        // 根据 provider 和 token 获取用户信息
-        String userId = UUID.randomUUID().toString();
         User user = new User();
-        user.setId(userId);
-        // 填充第三方认证信息
-        user.setOauth2Provider(provider);
-        user.setOauth2Token(token);
+        switch (ProviderConstant.nameOf(provider)) {
+            case QQ_PROVIDER_NAME:
+                String openid = qqUserInfoService.getOpenId(token);
+                qqUserInfoService.putUserInfo(user, token, Config.INSTANCE.getAppid(), openid);
+                user.setQQOpenId(openid);
+                break;
+            case WECHAT_PROVIDER_NAME:
+                //TODO:
+                weChatUserInfoService.getUserInfo(token);
+                break;
+            case GITHUB_PROVIDER_NAME:
+                //TODO:
+                gitHubUserInfoService.getUserInfo(token);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported provider: " + provider);
+        }
 
         saveUser(user, password);
         return generateJwt(user);
     }
 
     private void saveUser(User user, String password) {
-        // 将用户信息存入 MongoDB
-        mongoTemplate.save(user);
-
-        // 对密码进行加盐
+        UserCredentials userCredentials = new UserCredentials();
         String salt = generateSalt();
         String saltedPassword = hashPassword(password, salt);
+        userCredentials.setPassword(saltedPassword);
+        userCredentials.setSalt(salt);
 
-        // 将盐和加盐后的密码存入 MySQL
-        jdbcTemplate.update("INSERT INTO user_credentials (user_id, salt, password) VALUES (?, ?, ?)",
-                user.getId(), salt, saltedPassword);
+        Long credentialsId = userCredentialsRepository.saveUserCredentials(userCredentials);
+        user.setId(credentialsId);
 
-        // 生成 RSA 密钥对
         KeyPair keyPair = generateRsaKeyPair();
         String publicKey = Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded());
 
-        // 将公钥存入 MongoDB
         user.setPublicKey(publicKey);
-        mongoTemplate.save(user);
+        saveUserToMongo(user);
+    }
+
+    private void saveUserToMongo(User user) {
+        mongoUserRepository.saveUser(user);
     }
 
     private String generateSalt() {
-        // 生成随机盐
         return UUID.randomUUID().toString();
     }
 
     private String hashPassword(String password, String salt) {
-        // 使用盐对密码进行哈希
-        // 这里可以使用例如 BCrypt、SHA-256 等哈希算法
-        return password + salt; // 简单示例，实际应用中请使用安全的哈希算法
+        return BCrypt.hashpw(password, salt);
     }
 
     private KeyPair generateRsaKeyPair() {
@@ -115,8 +114,9 @@ public class RegistrationService {
         }
     }
 
-
     private String generateJwt(User user) {
-        return jwtUtil.generateToken(user.getId(), "USER_ROLE");
+        return JwtUtil.INSTANCE.generateToken(user.getId().toString(), "USER_ROLE");
     }
+
+
 }

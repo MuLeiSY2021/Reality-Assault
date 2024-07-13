@@ -8,11 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 public class User {
     @Id
-    private String id;
+    private Long id;
     private String phone;
     private String email;
-    private String oauth2Provider;
-    private String oauth2Token;
+    private String QQOpenId;
     private String publicKey;
 
     // 其他用户信息字段
