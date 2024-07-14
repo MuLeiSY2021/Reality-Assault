@@ -2,7 +2,7 @@ package indi.muleisy.ra.service.user.service;
 
 import indi.muleisy.ra.service.user.model.User;
 import indi.muleisy.ra.service.user.model.UserCredentials;
-import indi.muleisy.ra.service.user.repository.MongoUserRepository;
+import indi.muleisy.ra.service.user.repository.UserInfoRepository;
 import indi.muleisy.ra.service.user.repository.UserCredentialsRepository;
 import indi.muleisy.ra.utils.Config;
 import indi.muleisy.ra.utils.ProviderConstant;
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class RegistrationService {
 
     @Autowired
-    private MongoUserRepository mongoUserRepository;
+    private UserInfoRepository userInfoRepository;
 
     @Autowired
     private QQUserInfoService qqUserInfoService;
@@ -57,7 +57,7 @@ public class RegistrationService {
             case QQ_PROVIDER_NAME:
                 String openid = qqUserInfoService.getOpenId(token);
                 qqUserInfoService.putUserInfo(user, token, Config.INSTANCE.getAppid(), openid);
-                user.setQQOpenId(openid);
+                user.setQQToken(openid);
                 break;
             case WECHAT_PROVIDER_NAME:
                 //TODO:
@@ -93,7 +93,7 @@ public class RegistrationService {
     }
 
     private void saveUserToMongo(User user) {
-        mongoUserRepository.saveUser(user);
+        userInfoRepository.saveUser(user);
     }
 
     private String generateSalt() {

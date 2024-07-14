@@ -1,6 +1,8 @@
 package indi.muleisy.ra.service.user.service;
 
+import indi.muleisy.ra.service.user.model.QQErrorResponse;
 import indi.muleisy.ra.service.user.model.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.json.JSONObject;
@@ -26,7 +28,6 @@ public class QQUserInfoService {
             }
             user.setNickname(json.getString("nickname"));
             user.setAvatar(json.getString("figureurl_qq_1"));
-            user.setGender(json.getString("gender"));
         }
     }
 
@@ -39,5 +40,20 @@ public class QQUserInfoService {
         JSONObject json = new JSONObject(jsonStr);
 
         return json.getString("openid");
+    }
+
+
+    public boolean verifyToken(String accessToken) {
+        String url = "https://graph.qq.com/oauth2.0/me";
+        try {
+            ResponseEntity<QQErrorResponse> responseEntity = restTemplate.getForEntity(url + "?access_token=" + accessToken, QQErrorResponse.class);
+        } catch (Exception e) {
+            String response = restTemplate.getForObject(url + "?access_token=" + accessToken, String.class);
+
+            // QQ 返回的格式为 callback( {"client_id":"YOUR_APPID","openid":"YOUR_OPENID"} );
+            String jsonStr = response.substring(response.indexOf("(") + 1, response.indexOf(")"));
+            return jsonStr != null;
+        }
+        return false; // 验证失败
     }
 }

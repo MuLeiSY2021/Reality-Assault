@@ -2,7 +2,7 @@ package indi.muleisy.ra.service.user.service;
 
 import indi.muleisy.ra.service.user.model.User;
 import indi.muleisy.ra.service.user.model.UserCredentials;
-import indi.muleisy.ra.service.user.repository.MongoUserRepository;
+import indi.muleisy.ra.service.user.repository.UserInfoRepository;
 import indi.muleisy.ra.service.user.repository.UserCredentialsRepository;
 import indi.muleisy.ra.utils.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class LoginService {
     private RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    private MongoUserRepository mongoUserRepository;
+    private UserInfoRepository userInfoRepository;
 
     @Autowired
     private UserCredentialsRepository userCredentialsRepository;
@@ -62,13 +62,13 @@ public class LoginService {
 
     private User getUserByIdentifier(String identifier) {
         // 根据邮箱、手机或用户名获取用户
-        return mongoUserRepository.findByEmailOrPhoneOrOpenId(identifier);
+        return userInfoRepository.findByEmailOrPhoneOrOpenId(identifier);
     }
 
     private User getUserByOAuth2Provider(String provider, String token) {
         String openId = oAuth2Service.getUserByProviderAndToken(provider, token);
 
-        return mongoUserRepository.findByEmailOrPhoneOrOpenId(openId);
+        return userInfoRepository.findByEmailOrPhoneOrOpenId(openId);
     }
 
     private boolean verifyPassword(String rawPassword, User user) {
@@ -92,7 +92,7 @@ public class LoginService {
     }
 
     private PublicKey getUserPublicKey(String userId) {
-        User user = mongoUserRepository.findUserById(userId);
+        User user = userInfoRepository.findUserById(userId);
         byte[] keyBytes = Base64.getDecoder().decode(user.getPublicKey());
         return JwtUtil.INSTANCE.getPublicKey(keyBytes);
     }

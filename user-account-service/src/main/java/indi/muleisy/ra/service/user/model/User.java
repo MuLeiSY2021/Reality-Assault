@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "users")
 @Data
 public class User {
@@ -11,13 +13,15 @@ public class User {
     private Long id;
     private String phone;
     private String email;
-    private String QQOpenId;
+    private String QQToken;
     private String publicKey;
+    private String weChatToken;
+    private String githubToken;
 
     // 其他用户信息字段
+    private Date birthdate;
     private String nickname;
     private String avatar;
-    private String gender;
-    private String birthday;
+    private boolean gender;
     private int age;
 }

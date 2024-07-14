@@ -13,7 +13,8 @@ public enum ResultCode {
     USER_LOGIN_ERROR(2002,"用户不存在或密码错误"),
     USER_NOT_EXISITED(2003,"用户不存在"),
 
-    USER_VERIFY_ERROR(2004,"验证码错误");
+    USER_VERIFY_ERROR(2004,"验证码错误"),
+    USER_NOT_EXISTED(2005, "用户不存在");
 
     private final Integer code;
     private final String message;
