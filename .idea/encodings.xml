@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/cache-frame/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/cache-frame/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/doucmentdb-frame/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/doucmentdb-frame/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mq-frame/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mq-frame/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/public-module/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/public-module/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/rdb-frame/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/rdb-frame/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/route-frame/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/route-frame/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/search-frame/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/search-frame/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-cache/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-cache/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-doucmentdb/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-doucmentdb/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-mq/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-mq/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-rdb/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-rdb/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-route/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-route/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-search/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/frame-search/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/module-public/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/module-public/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-battle-process/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-battle-process/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-user-account/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-user-account/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/user-account-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/user-account-service/src/main/resources" charset="UTF-8" />
   </component>
 </project>
