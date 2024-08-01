@@ -1,12 +1,12 @@
 package indi.muleisy.ra.battle.handler.shop;
 
+import indi.muleisy.ra.battle.BattleProcessServer;
 import indi.muleisy.ra.battle.dao.spring.GoodDao;
 import indi.muleisy.ra.battle.handler.RegisterSessionInboundHandler;
-import indi.muleisy.ra.battle.BattleProcessServer;
-import indi.muleisy.ra.pub.redis.Good;
 import indi.muleisy.ra.pub.netty.packet.battle.notification.EquipmentRenewNotification;
 import indi.muleisy.ra.pub.netty.packet.battle.request.ShoppingRequest;
 import indi.muleisy.ra.pub.netty.packet.battle.response.ShoppingResponse;
+import indi.muleisy.ra.pub.redis.Good;
 import indi.muleisy.ra.pub.redis.dao.PlayerBattleInfoDao;
 import io.netty.channel.ChannelHandlerContext;
 

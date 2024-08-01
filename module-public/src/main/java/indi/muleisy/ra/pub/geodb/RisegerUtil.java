@@ -1,7 +1,6 @@
 package indi.muleisy.ra.pub.geodb;
 
 import lombok.Getter;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.riseger.jrdbc.driver.connector.Connection;
 import org.riseger.jrdbc.driver.session.Statement;

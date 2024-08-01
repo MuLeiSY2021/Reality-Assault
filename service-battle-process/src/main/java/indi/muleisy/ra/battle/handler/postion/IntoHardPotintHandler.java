@@ -1,10 +1,10 @@
 package indi.muleisy.ra.battle.handler.postion;
 
 import indi.muleisy.ra.battle.handler.RegisterSessionInboundHandler;
+import indi.muleisy.ra.pub.geodb.RisegerUtil;
 import indi.muleisy.ra.pub.netty.packet.battle.request.IntoHardPointRequest;
 import indi.muleisy.ra.pub.netty.packet.battle.request.PositionUpdateRequest;
 import indi.muleisy.ra.pub.redis.dao.PlayerBattleInfoDao;
-import indi.muleisy.ra.pub.geodb.RisegerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.riseger.protocol.compiler.result.ResultSet;
 
