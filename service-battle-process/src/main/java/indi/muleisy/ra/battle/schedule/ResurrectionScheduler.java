@@ -1,5 +1,6 @@
 package indi.muleisy.ra.battle.schedule;
 
+import indi.muleisy.ra.battle.dao.spring.SpringDaoManager;
 import indi.muleisy.ra.battle.dao.spring.WeaponDao;
 import indi.muleisy.ra.battle.data.Weapon;
 import indi.muleisy.ra.pub.netty.schedule.Scheduler;
@@ -8,15 +9,12 @@ import io.netty.channel.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class ResurrectionScheduler extends Scheduler {
 
-    @Autowired
-    private WeaponDao weaponDao;
+    private WeaponDao weaponDao = SpringDaoManager.INSTANCE.getWeaponDao();
 
     public ResurrectionScheduler(Channel ctx) {
         super(ctx);
-        this.weaponDao = weaponDao;
     }
 
     @Override
