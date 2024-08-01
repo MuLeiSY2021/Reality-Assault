@@ -17,12 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-        <!-- Kafka dependencies -->
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-            <version>3.2.1</version>
-        </dependency>
         <!-- 引入org.json所需依赖 -->
         <dependency>
             <groupId>org.json</groupId>

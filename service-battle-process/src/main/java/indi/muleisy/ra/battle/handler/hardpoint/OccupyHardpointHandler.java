@@ -1,22 +1,22 @@
 package indi.muleisy.ra.battle.handler.hardpoint;
 
-import indi.muleisy.ra.battle.data.BattleField;
-import indi.muleisy.ra.battle.data.PlayerBattleInfo;
-import indi.muleisy.ra.battle.handler.AfterRegisterSessionInboundHandler;
-import indi.muleisy.ra.battle.packet.request.IntoHardPointRequest;
+import indi.muleisy.ra.battle.handler.RegisterSessionInboundHandler;
+import indi.muleisy.ra.pub.netty.packet.battle.request.IntoHardPointRequest;
+import indi.muleisy.ra.pub.redis.dao.BattleFieldDao;
+import indi.muleisy.ra.pub.redis.dao.PlayerBattleInfoDao;
 import io.netty.channel.ChannelHandlerContext;
 
-public class OccupyHardpointHandler extends AfterRegisterSessionInboundHandler<IntoHardPointRequest> {
+public class OccupyHardpointHandler extends RegisterSessionInboundHandler<IntoHardPointRequest> {
     @Override
     protected void channelRead2(ChannelHandlerContext ctx, IntoHardPointRequest intoHardPointRequest) throws Exception {
-        Byte party = (Byte) PlayerBattleInfo.INSTANCE.get(ctx, "party");
-        if(BattleField.INSTANCE.get(ctx, intoHardPointRequest.getId() + "hardPoint").equals(party)) {
+        Byte party = (Byte) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(), "party");
+        if(BattleFieldDao.INSTANCE.get(ctx.channel(), intoHardPointRequest.getId() + "hardPoint").equals(party)) {
             return;
         }
         if(party > 0) {
-            BattleField.INSTANCE.incr(ctx, intoHardPointRequest.getId() + "hardPointProcess");
+            BattleFieldDao.INSTANCE.incr(ctx.channel(), intoHardPointRequest.getId() + "hardPointProcess");
         } else {
-            BattleField.INSTANCE.decr(ctx, intoHardPointRequest.getId() + "hardPointProcess");
+            BattleFieldDao.INSTANCE.decr(ctx.channel(), intoHardPointRequest.getId() + "hardPointProcess");
         }
     }
 }

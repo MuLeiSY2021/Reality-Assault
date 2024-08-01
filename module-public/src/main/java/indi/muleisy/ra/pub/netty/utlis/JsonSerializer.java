@@ -1,7 +1,6 @@
 package indi.muleisy.ra.pub.netty.utlis;
 
 import com.google.gson.Gson;
-import indi.muleisy.ra.pub.netty.packet.Packet;
 import indi.muleisy.ra.pub.netty.packet.ResponsePacket;
 
 import java.nio.charset.StandardCharsets;

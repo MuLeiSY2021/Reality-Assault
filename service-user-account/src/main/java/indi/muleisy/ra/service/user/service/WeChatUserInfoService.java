@@ -13,7 +13,6 @@ public class WeChatUserInfoService {
     }
 
     public String getUserInfo(String accessToken) {
-        //TODO Auto-generated method stub
         String url = "https://api.weixin.qq.com/sns/userinfo";
         String response = restTemplate.getForObject(url + "?access_token=" + accessToken, String.class);
         // 这里根据微信返回的 JSON 结构解析用户信息

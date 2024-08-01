@@ -19,5 +19,10 @@ public abstract class ResponsePacket extends Packet{
         return this;
     }
 
+    public ResponsePacket failure(ResultCode code) {
+        this.code = code;
+        return this;
+    }
+
     public abstract ResponsePacket failure();
 }

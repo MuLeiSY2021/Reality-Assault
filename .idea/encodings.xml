@@ -17,6 +17,8 @@
     <file url="file://$PROJECT_DIR$/module-public/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-battle-process/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-battle-process/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-battlesession-process/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-battlesession-process/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-user-account/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-user-account/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />

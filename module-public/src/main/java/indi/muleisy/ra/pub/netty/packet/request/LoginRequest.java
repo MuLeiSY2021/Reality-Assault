@@ -2,7 +2,6 @@ package indi.muleisy.ra.pub.netty.packet.request;
 
 import indi.muleisy.ra.pub.netty.packet.PacketTypeI;
 import indi.muleisy.ra.pub.netty.packet.RequestPacket;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

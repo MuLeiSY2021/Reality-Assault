@@ -2,10 +2,10 @@ package indi.muleisy.ra.service.user.service;
 
 import indi.muleisy.ra.service.user.model.QQErrorResponse;
 import indi.muleisy.ra.service.user.model.User;
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.json.JSONObject;
 
 @Service
 public class QQUserInfoService {

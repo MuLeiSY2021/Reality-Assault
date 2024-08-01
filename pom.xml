@@ -20,6 +20,7 @@
     <module>frame-route</module>
       <module>module-public</module>
       <module>service-battle-process</module>
+      <module>service-battlesession-process</module>
   </modules>
 
   <distributionManagement>

@@ -1,6 +1,5 @@
 package indi.muleisy.ra.pub.config;
 
-import indi.muleisy.ra.pub.netty.utlis.JsonSerializer;
 import indi.muleisy.ra.pub.netty.utlis.Serializer;
 import lombok.Getter;
 

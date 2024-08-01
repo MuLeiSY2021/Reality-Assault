@@ -1,20 +1,20 @@
 package indi.muleisy.ra.battle.handler.postion;
 
-import indi.muleisy.ra.battle.data.PlayerBattleInfo;
-import indi.muleisy.ra.battle.handler.AfterRegisterSessionInboundHandler;
-import indi.muleisy.ra.battle.packet.request.ExitSpawnRequest;
-import indi.muleisy.ra.battle.packet.request.PositionUpdateRequest;
-import indi.muleisy.ra.pub.utils.geodb.RisegerUtil;
+import indi.muleisy.ra.battle.handler.RegisterSessionInboundHandler;
+import indi.muleisy.ra.pub.netty.packet.battle.request.ExitSpawnRequest;
+import indi.muleisy.ra.pub.netty.packet.battle.request.PositionUpdateRequest;
+import indi.muleisy.ra.pub.redis.dao.PlayerBattleInfoDao;
+import indi.muleisy.ra.pub.geodb.RisegerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.riseger.protocol.compiler.result.ResultSet;
 
-public class ExitPartySpawnHandler extends AfterRegisterSessionInboundHandler<PositionUpdateRequest> {
+public class ExitPartySpawnHandler extends RegisterSessionInboundHandler<PositionUpdateRequest> {
     @Override
     protected void channelRead2(ChannelHandlerContext ctx, PositionUpdateRequest msg) throws Exception {
-        if((byte) PlayerBattleInfo.INSTANCE.get(ctx, "inBorn")==0) {
+        if((byte) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(), "inBorn")==0) {
             return;
         }
-        byte party = (byte) PlayerBattleInfo.INSTANCE.get(ctx, "party");
+        byte party = (byte) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(), "party");
         ResultSet set = RisegerUtil.search("USE\n" +
                 "  DATABASE 'reality_assault'|\n" +
                 "  MAP 'battlefield_mp'|\n" +

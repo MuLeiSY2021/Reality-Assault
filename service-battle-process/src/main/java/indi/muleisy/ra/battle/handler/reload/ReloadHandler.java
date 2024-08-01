@@ -1,41 +1,38 @@
 package indi.muleisy.ra.battle.handler.reload;
 
-import indi.muleisy.ra.battle.dao.WeaponDao;
-import indi.muleisy.ra.battle.data.PlayerBattleInfo;
+import indi.muleisy.ra.battle.BattleProcessServer;
+import indi.muleisy.ra.battle.dao.spring.WeaponDao;
 import indi.muleisy.ra.battle.data.Weapon;
-import indi.muleisy.ra.battle.handler.AfterRegisterSessionInboundHandler;
-import indi.muleisy.ra.battle.packet.request.ReloadRequest;
-import indi.muleisy.ra.battle.packet.response.ReloadResponse;
+import indi.muleisy.ra.battle.handler.RegisterSessionInboundHandler;
+import indi.muleisy.ra.pub.netty.packet.battle.request.ReloadRequest;
+import indi.muleisy.ra.pub.netty.packet.battle.response.ReloadResponse;
+import indi.muleisy.ra.pub.redis.dao.PlayerBattleInfoDao;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
 @Log4j2
-public class ReloadHandler extends AfterRegisterSessionInboundHandler<ReloadRequest> {
+public class ReloadHandler extends RegisterSessionInboundHandler<ReloadRequest> {
 
-    @Autowired
-    private WeaponDao weaponDao;
+    private final WeaponDao weaponDao = BattleProcessServer.DAO_MANAGER.getWeaponDao();
 
     @Override
     protected void channelRead2(ChannelHandlerContext ctx, ReloadRequest reloadRequest) throws Exception {
         if(reloadRequest.isMainhand()) {
-            if((Integer) PlayerBattleInfo.INSTANCE.get(ctx,"mainWeaponAmmoNum") > 0) {
-                Weapon weapon = weaponDao.get((String) PlayerBattleInfo.INSTANCE.get(ctx,"mainWeaponId"));
+            if((Integer) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(),"mainWeaponAmmoNum") > 0) {
+                Weapon weapon = weaponDao.get((String) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(),"mainWeaponId"));
 
-                PlayerBattleInfo.INSTANCE.decr(ctx,"mainWeaponAmmoNum");
-                PlayerBattleInfo.INSTANCE.set(ctx,"mainWeaponClipNum",weapon.getClip());
+                PlayerBattleInfoDao.INSTANCE.decr(ctx.channel(),"mainWeaponAmmoNum");
+                PlayerBattleInfoDao.INSTANCE.set(ctx.channel(),"mainWeaponClipNum",weapon.getClip());
                 ctx.channel().writeAndFlush(new ReloadResponse().success());
             }else {
                 ctx.channel().writeAndFlush(new ReloadResponse().failure());
             }
         } else {
-            if((Integer) PlayerBattleInfo.INSTANCE.get(ctx,"offWeaponAmmoNum") > 0) {
-                Weapon weapon = weaponDao.get((String) PlayerBattleInfo.INSTANCE.get(ctx,"offWeaponId"));
+            if((Integer) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(),"offWeaponAmmoNum") > 0) {
+                Weapon weapon = weaponDao.get((String) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(),"offWeaponId"));
 
-                PlayerBattleInfo.INSTANCE.decr(ctx,"offWeaponAmmoNum");
-                PlayerBattleInfo.INSTANCE.set(ctx,"offWeaponClipNum",weapon.getClip());
+                PlayerBattleInfoDao.INSTANCE.decr(ctx.channel(),"offWeaponAmmoNum");
+                PlayerBattleInfoDao.INSTANCE.set(ctx.channel(),"offWeaponClipNum",weapon.getClip());
                 ctx.channel().writeAndFlush(new ReloadResponse().success());
             }else {
                 ctx.channel().writeAndFlush(new ReloadResponse().failure());

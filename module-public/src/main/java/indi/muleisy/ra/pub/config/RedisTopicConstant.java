@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum RedisTopicConstant {
-    USER_BATTLE_INFO(0),
+    PLAYER_BATTLE_INFO(0),
 
     BATTLE_FIELD_INFO(1);
 

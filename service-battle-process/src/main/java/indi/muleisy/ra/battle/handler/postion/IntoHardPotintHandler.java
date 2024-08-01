@@ -1,17 +1,17 @@
 package indi.muleisy.ra.battle.handler.postion;
 
-import indi.muleisy.ra.battle.data.PlayerBattleInfo;
-import indi.muleisy.ra.battle.handler.AfterRegisterSessionInboundHandler;
-import indi.muleisy.ra.battle.packet.request.IntoHardPointRequest;
-import indi.muleisy.ra.battle.packet.request.PositionUpdateRequest;
-import indi.muleisy.ra.pub.utils.geodb.RisegerUtil;
+import indi.muleisy.ra.battle.handler.RegisterSessionInboundHandler;
+import indi.muleisy.ra.pub.netty.packet.battle.request.IntoHardPointRequest;
+import indi.muleisy.ra.pub.netty.packet.battle.request.PositionUpdateRequest;
+import indi.muleisy.ra.pub.redis.dao.PlayerBattleInfoDao;
+import indi.muleisy.ra.pub.geodb.RisegerUtil;
 import io.netty.channel.ChannelHandlerContext;
 import org.riseger.protocol.compiler.result.ResultSet;
 
-public class IntoHardPotintHandler extends AfterRegisterSessionInboundHandler<PositionUpdateRequest> {
+public class IntoHardPotintHandler extends RegisterSessionInboundHandler<PositionUpdateRequest> {
     @Override
     protected void channelRead2(ChannelHandlerContext ctx, PositionUpdateRequest msg) throws Exception {
-        if((byte) PlayerBattleInfo.INSTANCE.get(ctx, "inHardPoint")!=-1) {
+        if((byte) PlayerBattleInfoDao.INSTANCE.get(ctx.channel(), "inHardPoint")!=-1) {
             return;
         }
         ResultSet set = RisegerUtil.search("USE\n" +
@@ -32,7 +32,7 @@ public class IntoHardPotintHandler extends AfterRegisterSessionInboundHandler<Po
                 ";");
         if(set != null && set.getCount() > 0) {
             byte id = (byte) set.getModelSetMap().get("hard_point").getResultElements().get(0).getColumn("id");
-            PlayerBattleInfo.INSTANCE.set(ctx, "inHardPoint",id);
+            PlayerBattleInfoDao.INSTANCE.set(ctx.channel(), "inHardPoint",id);
             ctx.channel().write(new IntoHardPointRequest(id));
         }
     }

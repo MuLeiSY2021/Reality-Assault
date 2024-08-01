@@ -1,6 +1,5 @@
 package indi.muleisy.ra.pub.rpc;
 
-import indi.muleisy.ra.pub.netty.packet.ResponsePacket;
 import lombok.Getter;
 
 @Getter
@@ -20,7 +19,7 @@ public enum ResultCode {
     NOT_ENOUGH_CLIP(4001, "子弹不足"),
     NOT_ENOUGH_AMMO(4002, "弹夹数不足"),
 
-    ;
+    FULL_PEOPLE_ERROR(5001, "房间人满");
 
     private final Integer code;
     private final String message;

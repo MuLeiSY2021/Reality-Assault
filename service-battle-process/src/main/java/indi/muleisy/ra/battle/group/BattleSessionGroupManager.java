@@ -1,16 +1,12 @@
 package indi.muleisy.ra.battle.group;
 
 import indi.muleisy.ra.pub.netty.packet.Packet;
-import indi.muleisy.ra.pub.netty.packet.ResponsePacket;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.ChannelGroupFuture;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
-import java.nio.channels.SocketChannel;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BattleSessionGroupManager {
@@ -18,8 +14,8 @@ public class BattleSessionGroupManager {
 
     private final ConcurrentHashMap<Integer, ChannelGroup> groups = new ConcurrentHashMap<>();
 
-    public void addGroup(ChannelHandlerContext ctx) {
-        Integer group = (Integer) ctx.channel().attr(AttributeKey.valueOf("battleFieldId")).get();
+    public void addGroup(Channel ctx) {
+        Integer group = (Integer) ctx.attr(AttributeKey.valueOf("battleFieldId")).get();
         ChannelGroup channelGroup;
         if(groups.containsKey(group)) {
             channelGroup = groups.get(group);
@@ -27,11 +23,11 @@ public class BattleSessionGroupManager {
             channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
             groups.put(group, channelGroup);
         }
-        channelGroup.add(ctx.channel());
+        channelGroup.add(ctx);
     }
 
-    public void broadcast(ChannelHandlerContext ctx, Packet msg) {
-        Integer group = (Integer) ctx.channel().attr(AttributeKey.valueOf("battleFieldId")).get();
+    public void broadcast(Channel ctx, Packet msg) {
+        Integer group = (Integer) ctx.attr(AttributeKey.valueOf("battleFieldId")).get();
         ChannelGroup channels = groups.get(group);
         channels.writeAndFlush(msg);
     }
@@ -41,7 +37,13 @@ public class BattleSessionGroupManager {
         channels.writeAndFlush(msg);
     }
 
-    public Integer getGroupId(ChannelHandlerContext ctx) {
-        return (Integer) ctx.channel().attr(AttributeKey.valueOf("battleFieldId")).get();
+    public Integer getGroupId(Channel ctx) {
+        return (Integer) ctx.attr(AttributeKey.valueOf("battleFieldId")).get();
+    }
+
+    public void broadcastByChannel(Channel ctx, ChannelFunction channelFunction) {
+        Integer group = (Integer) ctx.attr(AttributeKey.valueOf("battleFieldId")).get();
+        ChannelGroup channels = groups.get(group);
+        channelFunction.sendPacket(channels);
     }
 }

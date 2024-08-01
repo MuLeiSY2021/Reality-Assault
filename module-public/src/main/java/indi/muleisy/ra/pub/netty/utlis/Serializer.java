@@ -1,11 +1,9 @@
 package indi.muleisy.ra.pub.netty.utlis;
 
-import indi.muleisy.ra.pub.netty.packet.Packet;
-import indi.muleisy.ra.pub.netty.packet.ResponsePacket;
 import indi.muleisy.ra.pub.config.Config;
+import indi.muleisy.ra.pub.netty.packet.ResponsePacket;
 import lombok.Getter;
 
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Serializer {

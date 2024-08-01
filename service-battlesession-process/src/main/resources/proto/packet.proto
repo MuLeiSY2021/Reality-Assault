@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package indi.muleisy.ra.battle.proto;
+
+option java_package = "indi.muleisy.ra.battle.proto";
+option java_outer_classname = "PacketProtos";
+
+message Packet {
+  enum PacketType {
+    HEARTBEAT = 0;
+    DATA = 1;
+  }
+  PacketType type = 1;
+  bytes data = 2;
+}
+
+message HeartbeatPacket {}
+
+message DataPacket {
+  int32 data = 1;
+}

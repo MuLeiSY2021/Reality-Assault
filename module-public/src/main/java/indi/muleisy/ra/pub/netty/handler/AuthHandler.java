@@ -2,13 +2,14 @@ package indi.muleisy.ra.pub.netty.handler;
 
 import indi.muleisy.ra.pub.netty.packet.request.LoginRequest;
 import indi.muleisy.ra.pub.netty.packet.request.LoginResponse;
-import indi.muleisy.ra.pub.utils.log.LogUtli;
-import indi.muleisy.ra.pub.utils.redis.RedisUtil;
+import indi.muleisy.ra.pub.redis.RedisUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.AttributeKey;
+import lombok.extern.log4j.Log4j2;
 import redis.clients.jedis.Jedis;
 
+@Log4j2
 public class AuthHandler extends SimpleChannelInboundHandler<LoginRequest> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginRequest msg) throws Exception {
@@ -18,7 +19,7 @@ public class AuthHandler extends SimpleChannelInboundHandler<LoginRequest> {
             String userId = jedis.get(rsaToken);
             if (userId == null) {
                 // 如果 token 不存在，关闭连接
-                LogUtli.Logging(this.getClass()).warn("User not Login");
+                log.warn("User not Login");
                 ctx.close();
                 return;
             } else {

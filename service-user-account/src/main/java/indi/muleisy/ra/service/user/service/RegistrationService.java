@@ -1,12 +1,12 @@
 package indi.muleisy.ra.service.user.service;
 
-import indi.muleisy.ra.service.user.model.User;
-import indi.muleisy.ra.service.user.model.UserCredentials;
-import indi.muleisy.ra.service.user.repository.UserInfoRepository;
-import indi.muleisy.ra.service.user.repository.UserCredentialsRepository;
 import indi.muleisy.ra.pub.config.Config;
 import indi.muleisy.ra.pub.config.ProviderConstant;
-import indi.muleisy.ra.pub.utils.jwt.JwtUtil;
+import indi.muleisy.ra.pub.jwt.JwtUtil;
+import indi.muleisy.ra.service.user.model.User;
+import indi.muleisy.ra.service.user.model.UserCredentials;
+import indi.muleisy.ra.service.user.repository.UserCredentialsRepository;
+import indi.muleisy.ra.service.user.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;

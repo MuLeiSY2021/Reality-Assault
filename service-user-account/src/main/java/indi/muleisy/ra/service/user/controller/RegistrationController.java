@@ -1,9 +1,9 @@
 package indi.muleisy.ra.service.user.controller;
 
+import indi.muleisy.ra.pub.rpc.Result;
 import indi.muleisy.ra.pub.rpc.ResultCode;
 import indi.muleisy.ra.service.user.service.RegistrationService;
 import indi.muleisy.ra.service.user.service.VerificationService;
-import indi.muleisy.ra.pub.rpc.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
