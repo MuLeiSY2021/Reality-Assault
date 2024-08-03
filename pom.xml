@@ -21,6 +21,11 @@
       <module>module-public</module>
       <module>service-battle-process</module>
       <module>service-battlesession-process</module>
+      <module>service-electric-business-order</module>
+      <module>service-electric-business-report</module>
+      <module>service-electric-business-promotion</module>
+      <module>service-electric-business-product</module>
+    <module>service-electric-business-payment</module>
   </modules>
 
   <distributionManagement>

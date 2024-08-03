@@ -10,8 +10,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
-import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -28,17 +26,6 @@ public class LoginService {
 
     @Autowired
     private OAuth2Service oAuth2Service;
-
-
-    public boolean validateJwt(String encryptedJwt) {
-        String userId = (String) redisTemplate.opsForValue().get(encryptedJwt);
-        if (userId == null) {
-            return false; // JWT 不存在或已过期
-        }
-        PublicKey publicKey = getUserPublicKey(userId);
-        String decryptedJwt = JwtUtil.INSTANCE.decryptJwt(encryptedJwt, publicKey);
-        return JwtUtil.INSTANCE.isJwtValid(decryptedJwt);
-    }
 
     public String loginByIdentifier(String identifier, String password) {
         User user = getUserByIdentifier(identifier);
@@ -89,12 +76,6 @@ public class LoginService {
 
     private String generateJwt(User user) {
         return JwtUtil.INSTANCE.generateToken(user.getId().toString(), "USER_ROLE");
-    }
-
-    private PublicKey getUserPublicKey(String userId) {
-        User user = userInfoRepository.findUserById(userId);
-        byte[] keyBytes = Base64.getDecoder().decode(user.getPublicKey());
-        return JwtUtil.INSTANCE.getPublicKey(keyBytes);
     }
 
     private void storeJwtInCache(String jwt, Long userId) {

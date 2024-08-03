@@ -15,12 +15,13 @@ public class UserInfoRepository {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public void saveUser(User user) {
-        mongoTemplate.save(user, "users");
-    }
 
     public User findUserById(String id) {
         return mongoTemplate.findById(id, User.class, "users");
+    }
+
+    public void saveUser(User user) {
+        mongoTemplate.save(user, "users");
     }
 
     public User findByEmailOrPhoneOrOpenId(String identifier) {

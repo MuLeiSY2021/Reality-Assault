@@ -1,4 +1,4 @@
-package indi.muleisy.ra.service.config;
+package indi.muleisy.ra.service.user.config;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;

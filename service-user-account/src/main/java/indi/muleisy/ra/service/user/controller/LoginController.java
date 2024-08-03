@@ -6,16 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/login")
 public class LoginController {
 
     @Autowired
     private LoginService loginService;
-
-    @PostMapping("/jwt")
-    public Result validateJwt(@RequestParam String encryptedJwt) {
-        return Result.success(loginService.validateJwt(encryptedJwt));
-    }
 
     @PostMapping
     public Result login(@RequestParam String identifier, @RequestParam String password) {

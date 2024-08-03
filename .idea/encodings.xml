@@ -19,6 +19,18 @@
     <file url="file://$PROJECT_DIR$/service-battle-process/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-battlesession-process/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-battlesession-process/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-order/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-payment/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-product/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-promotion/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-promotion/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-report/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-report/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-shoppingcart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-electric-business-shoppingcart/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-user-account/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-user-account/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />

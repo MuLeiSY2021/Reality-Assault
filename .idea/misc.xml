@@ -14,6 +14,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/service-electric-business/pom.xml" />
+        <option value="$PROJECT_DIR$/service-electric-business-shoppingcart/pom.xml" />
       </list>
     </option>
   </component>
